@@ -1,0 +1,22 @@
+# Diretório de dependências
+node_modules/
+
+# Saída do TypeScript
+dist/
+
+# Arquivo de variáveis de ambiente
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Pasta do Docker (caso gere algo local)
+docker-compose.override.yml
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/

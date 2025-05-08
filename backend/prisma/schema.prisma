@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Usuários (assessores e admins)
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(assessor)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  assessor
+  admin
+}
+
+// Escolas
+model School {
+  id           Int       @id @default(autoincrement())
+  name         String
+  cnpj         String    @unique
+  address      String
+  city         String
+  state        String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  documents    Document[]
+}
+
+// Documentos
+model Document {
+  id         Int      @id @default(autoincrement())
+  school     School   @relation(fields: [schoolId], references: [id])
+  schoolId   Int
+  name       String
+  url        String
+  uploadedAt DateTime @default(now())
+}
+
+enum SchoolType {
+  public
+  private
+}
+
+enum SchoolStatus {
+  pending
+  approved
+  rejected
+}
