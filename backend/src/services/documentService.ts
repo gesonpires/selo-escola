@@ -14,9 +14,10 @@ export interface UpdateDocumentInput {
   url?: string;
 }
 
-export async function listDocuments(): Promise<DocumentModel[]> {
+export async function listDocuments(schoolId: number) {
   return prisma.document.findMany({
-    orderBy: { uploadedAt: 'desc' },
+    where: { schoolId },
+    orderBy: { uploadedAt: 'desc' }
   });
 }
 

@@ -5,10 +5,24 @@ import * as documentService from '../services/documentService';
 const router = Router();
 
 // GET /api/documents
-router.get('/', requireAuth, async (req, res): Promise<void> => {
-    const docs = await documentService.listDocuments();
-    res.json(docs);
-  });
+router.get(
+  '/',
+  requireAuth,
+  async (req: Request, res: Response): Promise<void> => {
+    const schoolId = Number(req.query.schoolId)
+    if (Number.isNaN(schoolId)) {
+      res.status(400).json({ error: 'schoolId inválido' })
+      return
+    }
+    try {
+      const docs = await documentService.listDocuments(schoolId)
+      res.json(docs)        // <-- sem `return`
+    } catch (err: any) {
+      res.status(500).json({ error: err.message })  // <-- sem `return`
+    }
+  }
+)
+
   
 
 // GET /api/documents/:id
